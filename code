@@ -1,0 +1,34 @@
+import cairo
+
+class Segment:
+    def __init__(self, h):
+        self.couleur = (h/(height-1)(height-1)(height-1))
+        self.A = (0, h)
+        self.B = (width, h)
+        
+    def trace(self, ctx):
+        ctx.save()
+        ctx.set_sou
+        ctx.move_to
+        ctx.line_to
+        ctx.stroke()
+        ctx.restore()
+
+
+# Dimensions de l'image finale
+width, height = 1366, 137
+
+# Création d'une nouvelle image vide
+img = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+ctx = cairo.Context(img)
+
+# Remplir l'image avec un fond blanc (optionnel)
+ctx.set_source_rgb(1, 1, 1)  # RGB blanc
+ctx.paint()
+
+for i in range(height):
+    Segment(i).trace(ctx)
+
+# Sauvegarder l'image finale
+img.write_to_png("tram_tasnim.png")
+
