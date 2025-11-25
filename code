@@ -2,15 +2,15 @@ import cairo
 
 class Segment:
     def __init__(self, h):
-        self.couleur = (h/(height-1)(height-1)(height-1))
+        self.couleur = (h/(height-1) 0, 0)
         self.A = (0, h)
         self.B = (width, h)
         
     def trace(self, ctx):
         ctx.save()
-        ctx.set_sou
-        ctx.move_to
-        ctx.line_to
+        ctx.set_source_rgb(self.couleur)
+        ctx.move_to(self.A)
+        ctx.line_to(self.B)
         ctx.stroke()
         ctx.restore()
 
