@@ -1,0 +1,92 @@
+import cairo
+import os
+
+# --- Constantes ---
+WIDTH, HEIGHT = 1792, 2192
+BACKGROUND_COLOR = (1, 1, 1)   # blanc
+LINE_A_COLOR = (1, 0, 0)       # rouge
+LINE_WIDTH = 5
+
+
+# --- Classe Segment ---
+class Segment:
+    """
+    Segment reliant deux arrêts de tram.
+    """
+    def __init__(self, A, B, couleur, largeur):
+        self.A = A
+        self.B = B
+        self.couleur = couleur
+        self.largeur = largeur
+
+    def trace(self, ctx):
+        ctx.save()
+        ctx.set_source_rgb(*self.couleur)
+        ctx.set_line_width(self.largeur)
+        ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+        ctx.move_to(self.A[0], self.A[1])
+        ctx.line_to(self.B[0], self.B[1])
+        ctx.stroke()
+        ctx.restore()
+
+
+# --- Coordonnées de la ligne A ---
+ligne_A = [
+    (312, 128),
+    (392, 210),
+    (428, 227),
+    (490, 359),
+    (551, 473),
+    (611, 585),
+    (721, 634),
+    (862, 681),
+    (994, 692),
+    (1151, 729),
+    (1095, 828),
+    (1117, 985),
+    (1200, 1052),
+    (1179, 1149),
+    (1267, 1209),
+    (1252, 1266),
+    (1197, 1341),
+    (1139, 1407),
+    (1086, 1470),
+    (1105, 1560),
+    (1113, 1697),
+    (1069, 1820),
+    (942, 1919),
+    (959, 2029),
+    (1119, 2065),
+]
+
+
+# --- Programme principal ---
+def main():
+    # Création de la surface
+    img = cairo.ImageSurface(cairo.FORMAT_ARGB32, WIDTH, HEIGHT)
+    ctx = cairo.Context(img)
+
+    # Fond blanc
+    ctx.set_source_rgb(*BACKGROUND_COLOR)
+    ctx.paint()
+
+    # Tracé de la ligne A
+    for i in range(len(ligne_A) - 1):
+        Segment(
+            ligne_A[i],
+            ligne_A[i + 1],
+            LINE_A_COLOR,
+            LINE_WIDTH
+        ).trace(ctx)
+
+    # Sauvegarde dans Documents
+    chemin = os.path.join(os.path.expanduser("~/Documents"), "tram_ligne_A.png")
+    img.write_to_png(chemin)
+
+    print("Image générée avec succès !")
+    print("Emplacement :", chemin)
+
+
+# --- Lancement ---
+if __name__ == "__main__":
+    main()
